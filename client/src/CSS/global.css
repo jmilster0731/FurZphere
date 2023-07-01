@@ -1,0 +1,133 @@
+body {
+    background-image: url("https://cdn.pixabay.com/photo/2017/07/13/18/09/nebula-2501324_1280.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.center-component-exclusive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* App Page Layout */
+
+.app-page-container {
+  width: 80%;
+  height: 100vh;
+  min-width: 900px;
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  margin: auto;
+}
+
+/* FORMS */
+
+.form-container {
+  width: 50%;
+  max-width: 600px;
+  border-radius: 25px;
+  border: solid black 1px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.514);
+}
+
+.form-header {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 5px 5px 5px 10px;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.form-link-container {
+  display: grid;
+  grid-template-columns: 4fr 4fr 2fr;
+}
+
+.no-resize {
+    resize: none;
+}
+
+/* ALERTS */
+
+.error-alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(100% - 20px);
+  background-color: red;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-size: medium;
+}
+
+.clear-alert {
+  float: right;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+/* ICONS */
+
+.med-sized-icon {
+  height: 25px;
+  width: 25px;
+}
+
+/* Side Bars */
+
+.side-bar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(129, 218, 245, 0.568);
+  align-items: center;
+}
+
+.side-bar ul {
+  list-style: none;
+}
+
+/* Nav */
+
+.nav-bar-logo-container {
+    width: 150px;
+    height: 150px;
+}
+
+.nav-bar-logo {
+    height: 100%;
+    width: 100%;
+}
+
+.nav-bar {
+    width: 80%;
+}
+
+.nav-button {
+    margin-top: 5px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 25px;
+    border: none;
+    background: none;
+    font-weight: bold;
+}
+
+.nav-button:hover {
+    background: black;
+    border: 1px solid black;
+    color: white;
+}

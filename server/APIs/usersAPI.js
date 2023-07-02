@@ -31,8 +31,40 @@ async function getUserById(userId) {
   return result.rows[0];
 }
 
+async function updateUser(id, updatedFields) {
+  let query = "UPDATE users SET ";
+  const values = [];
+  let valueIndex = 1;
+
+  if (updatedFields.hasOwnProperty("profile_id")) {
+    query += "profile_id = $" + valueIndex;
+    values.push(updatedFields.profile_id);
+    valueIndex++;
+  } else {
+    const fields = Object.keys(updatedFields);
+
+    fields.forEach((field, index) => {
+      query += `${field} = $${valueIndex}`;
+      values.push(updatedFields[field]);
+      valueIndex++;
+
+      if (index !== fields.length - 1) {
+        query += ", ";
+      }
+    });
+  }
+
+  query += " WHERE id = $" + valueIndex;
+  values.push(id);
+
+  return pool.query(query, values);
+}
+
+
+
 module.exports = {
   createUser,
   getUserByEmail,
   getUserById,
+  updateUser,
 };

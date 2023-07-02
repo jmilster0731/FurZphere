@@ -9,30 +9,51 @@ const CreateUserProfile = ({ user }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-    // Construct the profile object with form data
-    const profileData = {
-      user_id: user.id,
-      bio,
-      location,
-      birthday,
-      profile_picture: "",
-    };
-
+  
     try {
-      // Make a request to the backend API to upload the profile picture and get the URL
+      const formData = new FormData();
+      formData.append("profilePicture", profilePicture); // Append the file to the form data
+  
+      const { data } = await api.post("/create_user_profile", {
+        user_id: user.id,
+        bio,
+        location,
+        birthday,
+        profile_picture_url: "", // Keep this line as it is
+      });
+  
+      console.log({ data });
+  
+      let profileId; // Define the profileId variable
+  
+      if (data && data.id) {
+        profileId = data.id;
+        console.log("Profile ID:", profileId);
+      } else {
+        // Handle the case where the profile ID is not available
+        console.error("Error creating user profile: Profile ID not found");
+        return;
+      }
+  
       const {
         data: { profile_picture_url },
-      } = await api.post("/upload_profile_picture", { profilePicture });
-
-      // Update the profile object with the profile picture URL
-      profileData.profile_picture = profile_picture_url;
-
-      // Make another request to create the user profile with the updated data
-      await api.post("/create_user_profile", profileData);
+      } = await api.post("/upload_profile_picture", formData, {
+        headers: { "Content-Type": "multipart/form-data" }, // Set the content type header
+      });
+  
+      const updatedProfileData = {
+        user_id: user.id,
+        bio,
+        location,
+        birthday,
+        profile_picture_url: profile_picture_url,
+      };
+  
+      await api.put(`/update_user/${user.id}`, { profile_id: profileId }); // Update the user with the profile fields
+      await api.put(`/update_user_profile/${profileId}`, updatedProfileData); // Update the user profile with the profile fields
+  
       console.log("User profile created successfully");
-
-      // Reset form fields after successful submission
+  
       setBio("");
       setLocation("");
       setBirthday("");
@@ -48,7 +69,7 @@ const CreateUserProfile = ({ user }) => {
       <div className="form-header">
         <h3>You Need to Create a Profile Before you can View It!</h3>
       </div>
-      <form onSubmit={handleFormSubmit} className="form-content">
+      <form onSubmit={handleFormSubmit} className="form-content" encType="multipart/form-data">
         <label htmlFor="bio">Bio:</label>
         <textarea
           id="bio"

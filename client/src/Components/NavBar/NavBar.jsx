@@ -9,9 +9,10 @@ const NavBar = () => {
   };
 
   return (
+    <div className="side-bar-container">
     <div className='side-bar'>
       <div className="nav-bar-logo-container">
-        <img src={require('../../Assets/Logo/Logo-Placeholder.jpg')} className='nav-bar-logo' />
+        <img src={require('../../Assets/Logo/LogoCLASSIC.png')} className='nav-bar-logo' />
       </div>
       <nav className='nav-bar'>
         <ul>
@@ -64,6 +65,7 @@ const NavBar = () => {
           </li>
         </ul>
       </nav>
+    </div>
     </div>
   );
 };

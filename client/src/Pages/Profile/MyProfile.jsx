@@ -1,25 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CreateUserProfile from "../../Components/UserProfiles/CreateUserProfile";
-import api from "../../api";
+import ImageOverlay from "../../Components/ImageOverlay/ImageOverlay";
 
-const MyProfile = ({ user }) => {
-  const [profileData, setProfileData] = useState(null);
-
-  useEffect(() => {
-    if (user && user.profile_id) {
-      fetchUserProfile(user.profile_id);
-    }
-  }, [user]);
-
-  const fetchUserProfile = async (profileId) => {
-    try {
-      const { data } = await api.get(`/profiles/${profileId}`);
-      setProfileData(data);
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-    }
-  };
-
+const MyProfile = ({ user, profileData }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const month = date.getMonth() + 1;
@@ -28,12 +11,19 @@ const MyProfile = ({ user }) => {
     return `${month}/${day}/${year}`;
   };
 
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [overlayImageUrl, setOverlayImageUrl] = useState('');
+
+  const handleProfilePictureClick = () => {
+    setOverlayImageUrl(profileData.profile_picture_url);
+    setShowOverlay(true);
+  };
+
   if (!user || !user.profile_id) {
     // Render the CreateProfile component if profile_id doesn't exist
     return <CreateUserProfile user={user} />;
   }
 
-  // Render the profile content once the profile data is fetched
   return (
     <div>
       {profileData ? (
@@ -45,6 +35,7 @@ const MyProfile = ({ user }) => {
                 backgroundImage: `url(${profileData.profile_picture_url})`,
                 backgroundSize: "cover",
               }}
+              onClick={handleProfilePictureClick}
             />
             <div className="my-profile-details">
               <div className="my-profile-details-header">{user.username}</div>
@@ -61,6 +52,10 @@ const MyProfile = ({ user }) => {
         </div>
       ) : (
         <p>Loading profile...</p>
+      )}
+
+      {showOverlay && (
+        <ImageOverlay imageUrl={overlayImageUrl} onClose={() => setShowOverlay(false)} />
       )}
     </div>
   );

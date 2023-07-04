@@ -97,11 +97,11 @@ body {
   width: calc(100% - 2px);
   border-left: 1px solid black;
   border-right: 1px solid black;
-  background-color: black;
+  background-color: rgb(66, 75, 83);
 }
 
 .side-bar {
-  width: calc(98% - 2px);
+  width: calc(96% - 2px);
   margin: auto;
   height: 100%;
   display: flex;
@@ -199,4 +199,39 @@ body {
   width: 90%;
   background: white;
   margin: auto;
+}
+
+/* IMAGE OVERLAY */
+
+.image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.overlay-content {
+  position: relative;
+}
+
+.overlay-content img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  background-color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }

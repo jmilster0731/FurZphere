@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Auth from '../Auth/Auth';
 import { useFetchUserInformation } from '../../HelperFunctions/AuthHelper';
+import { fetchUserProfile } from '../../HelperFunctions/UserProfileHelper';
 
 import UtilBar from '../../Components/UtilBar/UtilBar';
 import NavBar from '../../Components/NavBar/NavBar'
@@ -14,11 +15,22 @@ import MyProfile from '../Profile/MyProfile';
 const App = () => {
   const [authToken, setAuthToken] = useState(null);
   const user = useFetchUserInformation(authToken);
+  const [profileData, setProfileData] = useState(null);
 
   useEffect(() => {
     const authToken = localStorage.getItem('authToken');
     setAuthToken(authToken);
   }, []);
+
+  useEffect(() => {
+    if (user && user.profile_id) {
+      const fetchProfile = async () => {
+        const profileData = await fetchUserProfile(user.profile_id);
+        setProfileData(profileData);
+      };
+      fetchProfile();
+    }
+  }, [user]);
 
   if (!user) {
     return <Auth />;
@@ -29,7 +41,7 @@ const App = () => {
       <NavBar />
     <div>
       <Routes>
-        <Route path="/profile" element={<MyProfile user={user}/>} />
+        <Route path="/profile" element={<MyProfile user={user} profileData={profileData}/>} />
       </Routes>
     </div>
       <UtilBar />
